@@ -13,11 +13,11 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\permChangeEvent' => [
-            'App\Listeners\permChangeListener',
+        'App\Events\PermChangeEvent' => [
+            'App\Listeners\PermChangeListener',
         ],
-        'App\Events\userActionEvent' => [
-            'App\Listeners\userActionListener',
+        'App\Events\AdminActionEvent' => [
+            'App\Listeners\AdminActionListener',
         ],
     ];
 

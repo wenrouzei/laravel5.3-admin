@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Events\permChangeEvent;
+use App\Events\PermChangeEvent;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -11,6 +11,7 @@ use App\Http\Requests\PermissionUpdateRequest;
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Permission;
 use Cache, Event;
+use App\Events\AdminActionEvent;
 
 class PermissionController extends Controller
 {
@@ -100,8 +101,8 @@ class PermissionController extends Controller
             $permission->$field = $request->get($field,$this->fields[$field]);
         }
         $permission->save();
-        Event::fire(new permChangeEvent());
-        event(new \App\Events\userActionEvent('\App\Models\Admin\Permission', $permission->id, 1, '添加了权限:' . $permission->name . '(' . $permission->label . ')'));
+        Event::fire(new PermChangeEvent());
+        event(new AdminActionEvent('添加了权限:' . $permission->name . '(' . $permission->label . ')'));
         return redirect('/admin/permission/index' . $permission->cid)->withSuccess('添加成功！');
     }
 
@@ -148,8 +149,8 @@ class PermissionController extends Controller
             $permission->$field = $request->get($field,$this->fields[$field]);
         }
         $permission->save();
-        Event::fire(new permChangeEvent());
-        event(new \App\Events\userActionEvent('\App\Models\Admin\Permission', $permission->id, 3, '修改了权限:' . $permission->name . '(' . $permission->label . ')'));
+        Event::fire(new PermChangeEvent());
+        event(new AdminActionEvent('修改了权限:' . $permission->name . '(' . $permission->label . ')'));
         return redirect('admin/permission/index' . $permission->cid)->withSuccess('修改成功！');
     }
 
@@ -177,8 +178,8 @@ class PermissionController extends Controller
             return redirect()->back()
                 ->withErrors("删除失败");
         }
-        Event::fire(new permChangeEvent());
-        event(new \App\Events\userActionEvent('\App\Models\Admin\Permission', $tag->id, 2, '删除了权限:' . $tag->name . '(' . $tag->label . ')'));
+        Event::fire(new PermChangeEvent());
+        event(new AdminActionEvent('删除了权限:' . $tag->name . '(' . $tag->label . ')'));
         return redirect()->back()
             ->withSuccess("删除成功");
     }

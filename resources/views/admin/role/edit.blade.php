@@ -20,10 +20,10 @@
 
                             @include('admin.partials.errors')
                             @include('admin.partials.success')
-                            <form class="form-horizontal" role="form" method="POST" action="{{ url('/admin/role/'.$id) }}">
+                            <form class="form-horizontal" role="form" method="POST" action="{{ url('/admin/role',['id'=>$role->id]) }}">
                                 <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                 <input type="hidden" name="_method" value="PUT">
-                                <input type="hidden" name="id" value="{{ $id }}">
+                                <input type="hidden" name="id" value="{{ $role->id }}">
                                 @include('admin.role._form')
                                 <div class="form-group">
                                     <div class="col-md-7 col-md-offset-3">

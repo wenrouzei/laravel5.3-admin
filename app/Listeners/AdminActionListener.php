@@ -2,11 +2,12 @@
 
 namespace App\Listeners;
 
-use App\Events\PermChangeEvent;
+use App\Events\AdminActionEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Cache;
-class PermChangeListener
+use Log;
+
+class AdminActionListener
 {
     /**
      * Create the event listener.
@@ -21,12 +22,13 @@ class PermChangeListener
     /**
      * Handle the event.
      *
-     * @param  PermChangeEvent $event
+     * @param  AdminActionEvent  $event
      * @return void
      */
-    public function handle(PermChangeEvent $event)
+    public function handle(AdminActionEvent $event)
     {
-        Cache::store('file')->forget('menus');//清理菜单缓存
-    }
+        $str = '管理员:' . $event->adminName . '(id:' . $event->uid . ')' . '-ip('. \Request::ip().')' .$event->content;
 
+        Log::info($str);
+    }
 }

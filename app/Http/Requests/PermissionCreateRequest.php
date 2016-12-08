@@ -26,7 +26,7 @@ class PermissionCreateRequest extends Request
         return [
             'name'=>'required|unique:admin_permissions|max:255',
             'label'=>'required|max:255',
-            'cid'=>'required|int',
+            'cid'=>'required|integer',
         ];
     }
 }

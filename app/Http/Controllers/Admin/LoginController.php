@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Events\AdminActionEvent;
 
 class LoginController extends Controller
 {
@@ -66,6 +67,8 @@ class LoginController extends Controller
      */
     public function logout()
     {
+        event(new AdminActionEvent("登出后台"));
+
         $this->guard('admin')->logout();
 
         request()->session()->flush();

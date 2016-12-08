@@ -41,6 +41,7 @@ Route::group(['middleware' => ['auth:admin', 'menu', 'authAdmin']], function () 
     Route::get('permission/{cid}/create', ['as' => 'admin.permission.create', 'uses' => 'PermissionController@create']);
     Route::get('permission/{cid?}', ['as' => 'admin.permission.index', 'uses' => 'PermissionController@index']);
     Route::post('permission/index', ['as' => 'admin.permission.index', 'uses' => 'PermissionController@index']); //查询
+    //RESTful 资源控制器
     Route::resource('permission', 'PermissionController',
         ['names' => 
             [
@@ -56,6 +57,7 @@ Route::group(['middleware' => ['auth:admin', 'menu', 'authAdmin']], function () 
 
 
     //角色管理路由
+    Route::get('role/{id?}', ['as' => 'admin.role.index', 'uses' => 'RoleController@show'])->where('id','[0-9]+');//详情页
     Route::match(['get', 'post'], 'role/index',['as' => 'admin.role.index', 'uses' => 'RoleController@index']);//post为ajax请求用到
     //RESTful 资源控制器
     Route::resource('role', 'RoleController',
@@ -66,8 +68,7 @@ Route::group(['middleware' => ['auth:admin', 'menu', 'authAdmin']], function () 
                 'create' => 'admin.role.create', 
                 'store' => 'admin.role.create',
                 'destroy' => 'admin.role.destroy'
-            ],
-            'except' => ['show']//限制访问路由
+            ]
         ]
     );
 

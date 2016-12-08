@@ -1,12 +1,14 @@
 <?php
-
+/**
+ * 权限修改事件、清空缓存，从而更新菜单
+ */
 namespace App\Events;
 
 use App\Events\Event;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class permChangeEvent extends Event
+class PermChangeEvent extends Event
 {
     use SerializesModels;
 
