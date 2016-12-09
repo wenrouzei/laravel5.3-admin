@@ -44,6 +44,11 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        //可自定义异常
+        // if ($exception instanceof \Illuminate\Database\Eloquent\ModelNotFoundException) {
+        //     abort(403,'对不起，您无权访问该页面！'); //可结合模板403.blade.php，并传值模板 {{$exception->getMessage()}}使用
+        // }
+
         return parent::render($request, $exception);
     }
 
