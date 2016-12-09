@@ -27,12 +27,12 @@ class UserController extends Controller
     {
         if ($request->ajax()) {
             $data = array();
-            $data['draw'] = $request->get('draw');
-            $start = $request->get('start');
-            $length = $request->get('length');
-            $order = $request->get('order');
-            $columns = $request->get('columns');
-            $search = $request->get('search');
+            $data['draw'] = $request->input('draw');
+            $start = $request->input('start');
+            $length = $request->input('length');
+            $order = $request->input('order');
+            $columns = $request->input('columns');
+            $search = $request->input('search');
             $data['recordsTotal'] = User::count();
             if (strlen($search['value']) > 0) {
                 $data['recordsFiltered'] = User::where(function ($query) use ($search) {
@@ -82,17 +82,21 @@ class UserController extends Controller
     public function store(Requests\AdminUserCreateRequest $request)
     {
         $user = new User();
-        foreach (array_keys($this->fields) as $field) {
-            $user->$field = $request->get($field);
+        foreach ($this->fields as $field => $default) {
+            $user->$field = $request->input($field);
         }
-        $user->password = bcrypt($request->get('password'));
+        $user->password = bcrypt($request->input('password'));
         unset($user->roles);
-        $user->save();
-        if (is_array($request->get('roles'))) {
-            $user->giveRoleTo($request->get('roles'));
+
+        if($user->save()){
+            if (is_array($request->input('roles'))) {
+                $user->giveRoleTo($request->input('roles'));
+            }
+            event(new AdminActionEvent('添加了用户' . $user->name));
+            return redirect('/admin/user/index')->withSuccess('添加成功！');
+        }else{
+            return redirect()->back()->withInput()->withErrors('添加失败！');
         }
-        event(new AdminActionEvent('添加了用户' . $user->name));
-        return redirect('/admin/user/index')->withSuccess('添加成功！');
     }
 
     /**
@@ -114,8 +118,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::find((int)$id);
-        if (!$user) return redirect('/admin/user/index')->withErrors("找不到该用户!");
+        $user = User::findOrFail($id);
+
         $roles = [];
         if ($user->roles) {
             foreach ($user->roles as $v) {
@@ -123,12 +127,11 @@ class UserController extends Controller
             }
         }
         $user->roles = $roles;
-        foreach (array_keys($this->fields) as $field) {
+        foreach ($this->fields as $field => $default) {
             $data[$field] = old($field, $user->$field);
         }
         $data['rolesAll'] = Role::all()->toArray();
         $data['id'] = (int)$id;
-        event(new AdminActionEvent('修改了用户' . $user->name));
         return view('admin.user.edit', $data);
     }
 
@@ -141,15 +144,19 @@ class UserController extends Controller
      */
     public function update(Requests\AdminUserUpdateRequest $request, $id)
     {
-        $user = User::find((int)$id);
-        foreach (array_keys($this->fields) as $field) {
-            $user->$field = $request->get($field);
+        $user = User::findOrFail($id);
+        foreach ($this->fields as $field => $default) {
+            $user->$field = $request->input($field);
         }
         unset($user->roles);
-        $user->save();
-        $user->giveRoleTo($request->get('roles', []));
 
-        return redirect('/admin/user/index')->withSuccess('修改成功！');
+        if($user->save()){
+            $user->giveRoleTo($request->input('roles', []));
+            event(new AdminActionEvent('修改了用户' . $user->name));
+            return redirect('/admin/user/index')->withSuccess('修改成功！');
+        }else{
+            return redirect()->back()->withInput()->withErrors('修改失败！');
+        }
     }
 
     /**
@@ -160,18 +167,17 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $tag = User::find((int)$id);
-        foreach ($tag->roles as $v) {
-            $tag->roles()->detach($v);
-        }
-        if ($tag && $tag->id != 1) {
-            $tag->delete();
-        } else {
-            return redirect()->back()
-                ->withErrors("删除失败");
+        $user = User::findOrFail($id);
+
+        foreach ($user->roles as $v) {
+            $user->roles()->detach($v);
         }
 
-        return redirect()->back()
-            ->withSuccess("删除成功");
+        if ($user && $user->id != 1 && $user->delete()) {
+            return redirect()->back()->withSuccess("删除成功！");
+        } else {
+            return redirect()->back()->withErrors("删除失败！");
+        }
+
     }
 }

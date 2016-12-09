@@ -30,12 +30,12 @@ class RoleController extends Controller
     {
         if ($request->ajax()) {
             $data = array();
-            $data['draw'] = $request->get('draw');
-            $start = $request->get('start');
-            $length = $request->get('length');
-            $order = $request->get('order');
-            $columns = $request->get('columns');
-            $search = $request->get('search');
+            $data['draw'] = $request->input('draw');
+            $start = $request->input('start');
+            $length = $request->input('length');
+            $order = $request->input('order');
+            $columns = $request->input('columns');
+            $search = $request->input('search');
             $data['recordsTotal'] = Role::count();
             if (strlen($search['value']) > 0) {
                 $data['recordsFiltered'] = Role::where(function ($query) use ($search) {
@@ -85,17 +85,20 @@ class RoleController extends Controller
     public function store(RoleCreateRequest $request)
     {
         $role = new Role();
-        foreach ($this->fields as $field=>$val) {
+        foreach ($this->fields as $field=>$default) {
             if($field != 'permissions')$role->$field = $request->input($field);
         }
         
-        $role->save();
-        if (is_array($request->input('permissions'))) {
-            $role->givePermissionsTo($request->input('permissions'));
-        }
+        if($role->save()){
+            if (is_array($request->input('permissions'))) {
+                $role->givePermissionsTo($request->input('permissions'));
+            }
 
-        event(new AdminActionEvent("添加角色".$role->name."{".$role->id."}"));
-        return redirect('/admin/role/index')->withSuccess('添加成功！');
+            event(new AdminActionEvent("添加角色".$role->name."{".$role->id."}"));
+            return redirect('/admin/role/index')->withSuccess('添加成功！');
+        }else{
+            return redirect()->back()->withInput()->withErrors('添加失败！');
+        }
     }
 
     /**
@@ -106,8 +109,8 @@ class RoleController extends Controller
      */
     public function show($id)
     {
-        $role = Role::find($id);
-        if (!$role) return redirect('/admin/role')->withErrors("找不到该角色!");
+        $role = Role::findOrFail($id);
+
         $permissions = $permissionAll = [];
         if ($role->permissions) {
             foreach ($role->permissions as $v) {
@@ -133,8 +136,7 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-        $role = Role::find($id);
-        if (!$role) return redirect('/admin/role')->withErrors("找不到该角色!");
+        $role = Role::findOrFail($id);
 
         $permissions = [];
         if ($role->permissions) {
@@ -165,8 +167,7 @@ class RoleController extends Controller
         //验证id
         $validator = \Validator::make(['id'=>$id], 
             [
-                'id' => 'required|integer',
-                'name' => 'required',
+                'id' => 'required|integer'
             ]
         );
 
@@ -175,17 +176,19 @@ class RoleController extends Controller
             return redirect()->back()->withErrors(trans('role.unKnowError'));
         }
 
-        $role = Role::find($id);
-        foreach ($this->fields as $field=>$val) {
+        $role = Role::findOrFail($id);
+        foreach ($this->fields as $field=>$default) {
             if($field != 'permissions')$role->$field = $request->input($field);
         }
 
-        $role->save();
+        if($role->save()){
+            $role->givePermissionsTo($request->input('permissions',[]));
+            event(new AdminActionEvent("修改角色".$role->name."{".$role->id."}"));
+            return redirect('/admin/role/index')->withSuccess('修改成功！');
+        }else{
+            return redirect()->back()->withInput()->withErrors('修改失败！');
+        }
 
-        $role->givePermissionsTo($request->input('permissions',[]));
-
-        event(new AdminActionEvent("修改角色".$role->name."{".$role->id."}"));
-        return redirect('/admin/role/index')->withSuccess('修改成功！');
     }
 
     /**
@@ -208,7 +211,7 @@ class RoleController extends Controller
             return redirect()->back()->withErrors(trans('role.unKnowError'));
         }
 
-        $role = Role::find($id);
+        $role = Role::findOrFail($id);
 
         foreach ($role->users as $v){
             $role->users()->detach($v);
@@ -218,13 +221,11 @@ class RoleController extends Controller
             $role->permissions()->detach($v);
         }
 
-        if ($role) {
-            $role->delete();
+        if ($role->delete()) {
+            event(new AdminActionEvent("删除角色".$role->name."{".$role->id."}"));
+            return redirect()->back()->withSuccess("删除成功");
         } else {
-            return redirect()->back()->withErrors("删除失败");
+            return redirect()->back()->withErrors("删除失败！");
         }
-
-        event(new AdminActionEvent("删除角色".$role->name."{".$role->id."}"));
-        return redirect()->back()->withSuccess("删除成功");
     }
 }

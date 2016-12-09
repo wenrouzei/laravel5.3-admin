@@ -34,13 +34,13 @@ class PermissionController extends Controller
         $cid = (int)$cid;
         if ($request->ajax()) {
             $data = array();
-            $data['draw'] = $request->get('draw');
-            $start = $request->get('start');
-            $length = $request->get('length');
-            $order = $request->get('order');
-            $columns = $request->get('columns');
-            $search = $request->get('search');
-            $cid = $request->get('cid', 0);
+            $data['draw'] = $request->input('draw');
+            $start = $request->input('start');
+            $length = $request->input('length');
+            $order = $request->input('order');
+            $columns = $request->input('columns');
+            $search = $request->input('search');
+            $cid = $request->input('cid', 0);
             $data['recordsTotal'] = Permission::where('cid', $cid)->count();
             if (strlen($search['value']) > 0) {
                 $data['recordsFiltered'] = Permission::where('cid', $cid)->where(function ($query) use ($search) {
@@ -97,13 +97,16 @@ class PermissionController extends Controller
     public function store(PermissionCreateRequest $request)
     {
         $permission = new Permission();
-        foreach (array_keys($this->fields) as $field) {
-            $permission->$field = $request->get($field,$this->fields[$field]);
+        foreach ($this->fields as $field=>$default) {
+            $permission->$field = $request->input($field, $default);
         }
-        $permission->save();
-        Event::fire(new PermChangeEvent());
-        event(new AdminActionEvent('添加了权限:' . $permission->name . '(' . $permission->label . ')'));
-        return redirect('/admin/permission/index' . $permission->cid)->withSuccess('添加成功！');
+        if($permission->save()){
+            Event::fire(new PermChangeEvent());
+            event(new AdminActionEvent('添加了权限:' . $permission->name . '(' . $permission->label . ')'));
+            return redirect('/admin/permission/index' . $permission->cid)->withSuccess('添加成功！');
+        }else{
+            return redirect()->back()->withInput()->withErrors('添加失败！');
+        }
     }
 
     /**
@@ -125,13 +128,12 @@ class PermissionController extends Controller
      */
     public function edit($id)
     {
-        $permission = Permission::find((int)$id);
+        $permission = Permission::find($id);
         if (!$permission) return redirect('/admin/permission')->withErrors("找不到该权限!");
-        $data = ['id' => (int)$id];
-        foreach (array_keys($this->fields) as $field) {
+        $data = ['id' => $id];
+        foreach ($this->fields as $field => $default) {
             $data[$field] = old($field, $permission->$field);
         }
-        //dd($data);
         return view('admin.permission.edit', $data);
     }
 
@@ -144,14 +146,18 @@ class PermissionController extends Controller
      */
     public function update(PermissionUpdateRequest $request, $id)
     {
-        $permission = Permission::find((int)$id);
-        foreach (array_keys($this->fields) as $field) {
-            $permission->$field = $request->get($field,$this->fields[$field]);
+        $permission = Permission::find($id);
+        foreach ($this->fields as $field => $default) {
+            $permission->$field = $request->input($field, $default);
         }
-        $permission->save();
-        Event::fire(new PermChangeEvent());
-        event(new AdminActionEvent('修改了权限:' . $permission->name . '(' . $permission->label . ')'));
-        return redirect('admin/permission/index' . $permission->cid)->withSuccess('修改成功！');
+
+        if($permission->save()){
+            Event::fire(new PermChangeEvent());
+            event(new AdminActionEvent('修改了权限:' . $permission->name . '(' . $permission->label . ')'));
+            return redirect('admin/permission/index' . $permission->cid)->withSuccess('修改成功！');
+        }else{
+            return redirect()->back()->withInput()->withErrors('修改失败！');
+        }
     }
 
     /**
@@ -165,22 +171,19 @@ class PermissionController extends Controller
         $child = Permission::where('cid', $id)->first();
 
         if ($child) {
-            return redirect()->back()
-                ->withErrors("请先将该权限的子权限删除后再做删除操作!");
+            return redirect()->back()->withErrors("请先将该权限的子权限删除后再做删除操作!");
         }
-        $tag = Permission::find((int)$id);
-        foreach ($tag->roles as $v){
-            $tag->roles()->detach($v->id);
+
+        $permission = Permission::find($id);
+        foreach ($permission->roles as $v){
+            $permission->roles()->detach($v->id);
         }
-        if ($tag) {
-            $tag->delete();
+        if ($permission->delete()) {
+            Event::fire(new PermChangeEvent());
+            event(new AdminActionEvent('删除了权限:' . $permission->name . '(' . $permission->label . ')'));
+            return redirect()->back()->withSuccess("删除成功");
         } else {
-            return redirect()->back()
-                ->withErrors("删除失败");
+            return redirect()->back()->withErrors("删除失败！");
         }
-        Event::fire(new PermChangeEvent());
-        event(new AdminActionEvent('删除了权限:' . $tag->name . '(' . $tag->label . ')'));
-        return redirect()->back()
-            ->withSuccess("删除成功");
     }
 }

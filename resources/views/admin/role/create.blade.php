@@ -22,7 +22,7 @@
                             @include('admin.partials.success')
 
                             <form class="form-horizontal" role="form" method="POST" action="{{ url('/admin/role') }}">
-                                <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                {{ csrf_field() }}
                                 <input type="hidden" name="cove_image"/>
                                 @include('admin.role._form')
                                 <div class="form-group">
