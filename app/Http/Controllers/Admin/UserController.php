@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Events\AdminActionEvent;
+use Auth;
 
 class UserController extends Controller
 {
@@ -118,6 +119,10 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+        if($id == 1 && Auth::guard('admin')->user()->id !=1){//id=1的超级管理员只能自己修改
+            return response()->view('admin.errors.403', ['previousUrl'=>\URL::previous()]);
+        }
+
         $user = User::findOrFail($id);
 
         $roles = [];
@@ -144,6 +149,10 @@ class UserController extends Controller
      */
     public function update(Requests\AdminUserUpdateRequest $request, $id)
     {
+        if($id == 1 && Auth::guard('admin')->user()->id !=1){//id=1的超级管理员只能自己修改
+            return response()->view('admin.errors.403', ['previousUrl'=>\URL::previous()]);
+        }
+
         $user = User::findOrFail($id);
         foreach ($this->fields as $field => $default) {
             $user->$field = $request->input($field);
@@ -173,7 +182,7 @@ class UserController extends Controller
             $user->roles()->detach($v);
         }
 
-        if ($user && $user->id != 1 && $user->delete()) {
+        if ($user && $user->id != 1 && $user->delete()) {//id=1的超级管理员不能删除
             return redirect()->back()->withSuccess("删除成功！");
         } else {
             return redirect()->back()->withErrors("删除失败！");

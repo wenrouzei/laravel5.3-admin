@@ -27,7 +27,6 @@ class AuthenticateAdmin
             return $next($request);
         }
 
-        $previousUrl = URL::previous();
         //获取当前路由别名
         //Route::getCurrentRoute()->getPath();
         //Request::route()->getName();
@@ -41,7 +40,7 @@ class AuthenticateAdmin
                     'msg' => '您没有权限执行此操作'
                 ]);
             } else {
-                return response()->view('admin.errors.403', compact('previousUrl'));
+                return response()->view('admin.errors.403', ['previousUrl'=>URL::previous()]);//显示没有权限，传递上一页链接
             }
         }
 

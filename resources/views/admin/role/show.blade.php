@@ -64,10 +64,9 @@
 
                         <div class="form-group">
                             <div class="col-md-7 col-md-offset-3">
-                                <button type="submit" class="btn btn-primary btn-md" onclick="javascript:history.go(-1);">
-                                    <i class="fa fa-plus-circle"></i>
+                                <a href="{{ URL::previous() }}" class="btn btn-success btn-md">
                                     返回
-                                </button>
+                                </a>
                             </div>
                         </div>
 
