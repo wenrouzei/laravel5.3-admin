@@ -31,14 +31,16 @@ class AuthServiceProvider extends ServiceProvider
         if(!empty($_SERVER['SCRIPT_NAME']) && strtolower($_SERVER['SCRIPT_NAME']) ==='artisan' ){
             return false;
         }
+        
         $gate->before(function ($user, $ability) {
             if ($user->id === 1) {
                 return true;
             }
         });
+
         $this->registerPolicies($gate);
 
-            $permissions = \App\Models\Admin\Permission::with('roles')->get();
+        $permissions = \App\Models\Admin\Permission::with('roles')->get();
 
         foreach ($permissions as $permission) {
             $gate->define($permission->name, function ($user) use ($permission) {

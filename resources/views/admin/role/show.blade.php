@@ -64,8 +64,7 @@
 
                         <div class="form-group">
                             <div class="col-md-7 col-md-offset-3">
-                                <a href="{{ URL::previous() }}" class="btn btn-success btn-md">
-                                    返回
+                                <a style="margin:3px;" href="{{ URL::previous() }}" class="btn btn-warning btn-md animation-shake reloadBtn"><i class="fa fa-mail-reply-all"></i> 返回
                                 </a>
                             </div>
                         </div>

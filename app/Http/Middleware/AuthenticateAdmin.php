@@ -23,9 +23,10 @@ class AuthenticateAdmin
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::guard('admin')->user()->id === 1){
-            return $next($request);
-        }
+        //超级管理员已经在AuthServiceProvider.php 通过所有权限验证，故不需要再验证
+        // if(Auth::guard('admin')->user()->id === 1){
+        //     return $next($request);
+        // }
 
         //获取当前路由别名
         //Route::getCurrentRoute()->getPath();

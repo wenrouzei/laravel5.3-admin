@@ -1,13 +1,13 @@
 <div class="form-group">
     <label for="tag" class="col-md-3 control-label">角色名称</label>
     <div class="col-md-5">
-        <input type="text" class="form-control" name="name" id="tag" value="{{ $role->name??old('name') }}" autofocus>
+        <input type="text" class="form-control" name="name" id="tag" value="{{ old('name')??($role->name??'') }}" autofocus>
     </div>
 </div>
 <div class="form-group">
     <label for="tag" class="col-md-3 control-label">角色概述</label>
     <div class="col-md-5">
-        <textarea name="description" class="form-control" rows="3">{{ $role->description??old('description') }}</textarea>
+        <textarea name="description" class="form-control" rows="3">{{ old('description')??($role->description??'') }}</textarea>
     </div>
 </div>
 
@@ -31,7 +31,7 @@
                         <span class="checkbox-custom checkbox-default">
                         <i class="fa"></i>
                             <input class="form-actions"
-                                   @if(is_array(($role->permissions??old('permissions'))) && in_array($vv->id,($role->permissions??old('permissions'))))
+                                   @if(is_array((old('permissions')??($role->permissions??''))) && in_array($vv->id,(old('permissions')??($role->permissions??''))))
                                    checked
                                    @endif
                                    id="inputChekbox{{$vv->id}}" type="Checkbox" value="{{$vv->id}}"
