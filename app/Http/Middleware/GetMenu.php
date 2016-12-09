@@ -1,6 +1,6 @@
 <?php
 /**
- * 获取左侧菜单栏中间件
+ * 后台左侧菜单栏中间件
  */
 namespace App\Http\Middleware;
 

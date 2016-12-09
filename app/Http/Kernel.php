@@ -52,7 +52,7 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
 
-        'authAdmin' => \App\Http\Middleware\AuthenticateAdmin::class,
-        'menu'=>\App\Http\Middleware\GetMenu::class,
+        'authAdmin' => \App\Http\Middleware\AuthenticateAdmin::class,//后台功能权限控制中间件
+        'menu'=>\App\Http\Middleware\GetMenu::class,//后台左侧菜单栏中间件
     ];
 }

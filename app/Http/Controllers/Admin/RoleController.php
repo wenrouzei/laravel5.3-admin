@@ -173,7 +173,7 @@ class RoleController extends Controller
 
         if ($validator->fails()) 
         {
-            return redirect()->back()->withErrors(trans('role.unKnowError'));
+            return redirect()->back()->withInput()->withErrors(trans('role.unKnowError'));//trans根据设置语言获取语言翻译
         }
 
         $role = Role::findOrFail($id);
@@ -208,7 +208,7 @@ class RoleController extends Controller
 
         if ($validator->fails()) 
         {
-            return redirect()->back()->withErrors(trans('role.unKnowError'));
+            return redirect()->back()->withErrors(trans('role.unKnowError'));//trans根据设置语言获取语言翻译
         }
 
         $role = Role::findOrFail($id);

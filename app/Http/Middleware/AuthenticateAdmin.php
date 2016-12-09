@@ -1,6 +1,6 @@
 <?php
 /**
- * 后台功能控制中间件
+ * 后台功能权限控制中间件
  */
 
 namespace App\Http\Middleware;
