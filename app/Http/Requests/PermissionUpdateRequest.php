@@ -18,7 +18,7 @@ class PermissionUpdateRequest extends Request
 
     /**
      * Get the validation rules that apply to the request.
-     *
+     * 更新操作 unique唯一规则 强制一个唯一规则来忽略给定ID,可以传递ID作为第三个参数 $this->get('id') 如果你的数据表使用主键字段不是id，可以指定第四个输入参数
      * @return array
      */
     public function rules()

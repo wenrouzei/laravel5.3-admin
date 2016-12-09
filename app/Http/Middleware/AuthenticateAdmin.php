@@ -10,7 +10,7 @@ use Route,URL,Auth,Gate;
 
 class AuthenticateAdmin
 {
-    //改属性经测试没用？
+    //该属性经测试没用？
     // protected $except = [
     //     'admin/index'
     // ];
@@ -24,7 +24,7 @@ class AuthenticateAdmin
     public function handle($request, Closure $next)
     {
         // dd(Route::currentRouteName());
-        //超级管理员已经在AuthServiceProvider.php 通过所有权限验证，下面gate权限验证里会自动true绕过，这里不需要再验证？，不想经过下面Gate验证能节省资源能开启？
+        //超级管理员已经在AuthServiceProvider.php 通过所有权限验证，下面Gate权限验证里会自动true绕过，这里不需要再验证？不想经过下面Gate权限验证能节省资源能开启？
         // if(Auth::guard('admin')->user()->id === 1){
         //     return $next($request);
         // }

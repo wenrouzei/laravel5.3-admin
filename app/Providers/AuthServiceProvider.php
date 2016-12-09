@@ -11,11 +11,11 @@ class AuthServiceProvider extends ServiceProvider
 {
     /**
      * The policy mappings for the application.
-     *
+     * 可定义策略类，可结合model使用
      * @var array
      */
     protected $policies = [
-        'App\Model' => 'App\Policies\ModelPolicy',
+        // 'App\Model' => 'App\Policies\ModelPolicy',
     ];
 
 
@@ -32,13 +32,14 @@ class AuthServiceProvider extends ServiceProvider
             return false;
         }
         
+        $this->registerPolicies($gate);
+        
         $gate->before(function ($user, $ability) {
-            if ($user->id === 1) {
+            if ($user->id === 1) {//超级管理员绕过gate验证
                 return true;
             }
         });
 
-        $this->registerPolicies($gate);
 
         $permissions = \App\Models\Admin\Permission::with('roles')->get();
 
