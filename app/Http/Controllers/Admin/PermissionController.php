@@ -103,7 +103,7 @@ class PermissionController extends Controller
         if($permission->save()){
             Event::fire(new PermChangeEvent());
             event(new AdminActionEvent('添加了权限:' . $permission->name . '(' . $permission->label . ')'));
-            return redirect('/admin/permission/index/' . $permission->cid)->withSuccess('添加成功！');
+            return redirect('/admin/permission/' . $permission->cid)->withSuccess('添加成功！');
         }else{
             return redirect()->back()->withInput()->withErrors('添加失败！');
         }
@@ -154,7 +154,7 @@ class PermissionController extends Controller
         if($permission->save()){
             Event::fire(new PermChangeEvent());
             event(new AdminActionEvent('修改了权限:' . $permission->name . '(' . $permission->label . ')'));
-            return redirect('admin/permission/index/' . $permission->cid)->withSuccess('修改成功！');
+            return redirect('admin/permission/' . $permission->cid)->withSuccess('修改成功！');
         }else{
             return redirect()->back()->withInput()->withErrors('修改失败！');
         }
