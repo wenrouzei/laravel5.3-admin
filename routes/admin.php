@@ -38,7 +38,7 @@ Route::group(['as'=>'admin.index','middleware'=>['auth:admin','menu']], function
 Route::group(['middleware' => ['auth:admin', 'menu', 'authAdmin']], function () {
 
     //权限管理路由
-    Route::get('permission/{cid}/create', ['as' => 'admin.permission.create', 'uses' => 'PermissionController@create']);
+    Route::get('permission/{cid}/create', ['as' => 'admin.permission.create', 'uses' => 'PermissionController@create'])->where('cid','[0-9]+');
     Route::get('permission/{cid?}', ['as' => 'admin.permission.index', 'uses' => 'PermissionController@index']);
     Route::post('permission/index', ['as' => 'admin.permission.index', 'uses' => 'PermissionController@index']); //查询
     //RESTful 资源控制器
@@ -92,6 +92,8 @@ Route::group(['middleware' => ['auth:admin', 'menu', 'authAdmin']], function () 
     Route::get('article/index', ['as'=>'admin.article.index', 'uses' => 'ArticleController@index']);//文章管理
 
     Route::get('student/index', ['as'=>'admin.student.index', 'uses' => 'StudentController@index']);//文章管理
+
+    Route::get('sc/index', ['as'=>'admin.sc.index', 'uses' => 'ScController@index']);//文章管理
 
 });
 

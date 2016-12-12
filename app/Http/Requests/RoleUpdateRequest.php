@@ -27,4 +27,12 @@ class RoleUpdateRequest extends Request
             'name'=>'required|unique:admin_roles,name,'.$this->get('id').'|max:255',
         ];
     }
+
+    public function messages(){
+        return [
+            'name.required' => '角色名称不能为空',  
+            'name.unique' => '角色名称不能重复', 
+            'name.max' => '角色名称长度不能大于255字节',                      
+        ];
+    }
 }

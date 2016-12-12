@@ -29,4 +29,6 @@ class AdminUserUpdateRequest extends Request
             'password'=>'confirmed|min:6|max:50'
         ];
     }
+
+    
 }
