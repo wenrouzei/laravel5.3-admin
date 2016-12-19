@@ -90,9 +90,12 @@ class UserController extends Controller
         unset($user->roles);
 
         if($user->save()){
-            if (is_array($request->input('roles'))) {
-                $user->giveRoleTo($request->input('roles'));
-            }
+            //sync 方法去创建一个多对多的关联
+            $user->roles()->sync($request->input('roles', []));
+
+            // if (is_array($request->input('roles'))) {
+            //     $user->giveRoleTo($request->input('roles'));
+            // }
             event(new AdminActionEvent('添加了用户' . $user->name));
             return redirect('/admin/user/index')->withSuccess('添加成功！');
         }else{
@@ -160,7 +163,10 @@ class UserController extends Controller
         unset($user->roles);
 
         if($user->save()){
-            $user->giveRoleTo($request->input('roles', []));
+            //sync 方法去创建一个多对多的关联
+            $user->roles()->sync($request->input('roles', []));
+
+            // $user->giveRoleTo($request->input('roles', []));
             event(new AdminActionEvent('修改了用户' . $user->name));
             return redirect('/admin/user/index')->withSuccess('修改成功！');
         }else{
@@ -178,9 +184,12 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
-        foreach ($user->roles as $v) {
-            $user->roles()->detach($v);
-        }
+        // foreach ($user->roles as $v) {
+        //     $user->roles()->detach($v);
+        // }
+
+        // 移除用户身上所有身份...
+        $user->roles()->detach();
 
         if ($user && $user->id != 1 && $user->delete()) {//id=1的超级管理员不能删除
             return redirect()->back()->withSuccess("删除成功！");

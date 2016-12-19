@@ -50,20 +50,20 @@ class AdminUser extends Authenticatable
         return $this->hasRole($permission->roles);
     }
 
-    // 给用户分配角色
-    public function assignRole($role)
-    {
-        return $this->roles()->save($role);
-    }
+    // // 给用户分配角色
+    // public function assignRole($role)
+    // {
+    //     return $this->roles()->save($role);
+    // }
 
 
-    //角色整体添加与修改
-    public function giveRoleTo(array $RoleId){
-        $this->roles()->detach();
-        $roles=Role::whereIn('id',$RoleId)->get();
-        foreach ($roles as $v){
-            $this->assignRole($v);
-        }
-        return true;
-    }
+    // //角色整体添加与修改
+    // public function giveRoleTo(array $RoleId){
+    //     $this->roles()->detach();
+    //     $roles=Role::whereIn('id',$RoleId)->get();
+    //     foreach ($roles as $v){
+    //         $this->assignRole($v);
+    //     }
+    //     return true;
+    // }
 }

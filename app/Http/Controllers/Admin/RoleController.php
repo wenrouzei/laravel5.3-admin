@@ -90,9 +90,11 @@ class RoleController extends Controller
         }
         
         if($role->save()){
-            if (is_array($request->input('permissions'))) {
-                $role->givePermissionsTo($request->input('permissions'));
-            }
+            // sync 方法去创建一个多对多的关联
+            $role->permissions()->sync($request->input('permissions',[]));
+            // if (is_array($request->input('permissions'))) {
+            //     $role->givePermissionsTo($request->input('permissions'));
+            // }
 
             event(new AdminActionEvent("添加角色".$role->name."{".$role->id."}"));
             return redirect('/admin/role/index')->withSuccess('添加成功！');
@@ -182,7 +184,10 @@ class RoleController extends Controller
         }
 
         if($role->save()){
-            $role->givePermissionsTo($request->input('permissions',[]));
+            // sync 方法去创建一个多对多的关联
+            $role->permissions()->sync($request->input('permissions',[]));
+
+            // $role->givePermissionsTo($request->input('permissions',[]));
             event(new AdminActionEvent("修改角色".$role->name."{".$role->id."}"));
             return redirect('/admin/role/index')->withSuccess('修改成功！');
         }else{
@@ -213,13 +218,19 @@ class RoleController extends Controller
 
         $role = Role::findOrFail($id);
 
-        foreach ($role->users as $v){
-            $role->users()->detach($v);
-        }
+        // foreach ($role->users as $v){
+        //     $role->users()->detach($v);
+        // }
+        
+        //直接移除角色表跟用户表的所有关联
+        $role->users()->detach();
 
-        foreach ($role->permissions as $v){
-            $role->permissions()->detach($v);
-        }
+        //直接移除角色表跟权限表的所有关联
+        $role->permissions()->detach();
+
+        // foreach ($role->permissions as $v){
+        //     $role->permissions()->detach($v);
+        // }
 
         if ($role->delete()) {
             event(new AdminActionEvent("删除角色".$role->name."{".$role->id."}"));

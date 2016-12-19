@@ -174,10 +174,14 @@ class PermissionController extends Controller
             return redirect()->back()->withErrors("请先将该权限的子权限删除后再做删除操作!");
         }
 
-        $permission = Permission::find($id);
-        foreach ($permission->roles as $v){
-            $permission->roles()->detach($v->id);
-        }
+        $permission = Permission::findOrFail($id);
+        // foreach ($permission->roles as $v){
+        //     $permission->roles()->detach($v->id);
+        // }
+        
+        //直接移除权限表跟角色表的所有关联
+        $permission->roles()->detach();
+
         if ($permission->delete()) {
             Event::fire(new PermChangeEvent());
             event(new AdminActionEvent('删除了权限:' . $permission->name . '(' . $permission->label . ')'));

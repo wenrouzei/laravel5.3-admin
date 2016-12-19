@@ -19,20 +19,20 @@ class Role extends Model
         return $this->belongsToMany(AdminUser::class,'admin_role_user','role_id','user_id');
     }
     
-    //给角色添加权限
-    public function givePermissionTo($permission)
-    {
-        return $this->permissions()->save($permission);
-    }
+    // //给角色添加权限
+    // public function givePermissionTo($permission)
+    // {
+    //     return $this->permissions()->save($permission);
+    // }
 
-    //角色权限整体添加与修改
-    public function givePermissionsTo(array $permissionId){
-        $this->permissions()->detach();
-        $permissions=Permission::whereIn('id',$permissionId)->get();
-        foreach ($permissions as $v){
-            $this->givePermissionTo($v);
-        }
-        return true;
-    }
+    // //角色权限整体添加与修改
+    // public function givePermissionsTo(array $permissionId){
+    //     $this->permissions()->detach();
+    //     $permissions=Permission::whereIn('id',$permissionId)->get();
+    //     foreach ($permissions as $v){
+    //         $this->givePermissionTo($v);
+    //     }
+    //     return true;
+    // }
 
 }
