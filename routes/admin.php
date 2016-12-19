@@ -89,11 +89,5 @@ Route::group(['middleware' => ['auth:admin', 'menu', 'authAdmin']], function () 
         ]
     );
 
-    Route::get('article/index', ['as'=>'admin.article.index', 'uses' => 'ArticleController@index']);//文章管理
-
-    Route::get('student/index', ['as'=>'admin.student.index', 'uses' => 'StudentController@index']);//文章管理
-
-    Route::get('sc/index', ['as'=>'admin.sc.index', 'uses' => 'ScController@index']);//文章管理
-
 });
 
