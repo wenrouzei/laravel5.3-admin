@@ -90,14 +90,14 @@ desired effect
               <li><a href="/admin"><i class="fa fa-dashboard"></i> 控制面板</a></li>
               <li class="active">Here</li>
             </ol>--}}
-            <h6>
-              {{--  @if(Request::is('admin/log-viewer*'))
+   {{--          <h6>
+                @if(Request::is('admin/log-viewer*'))
                     仪表盘
                 @else
                     {!! Breadcrumbs::render(Route::currentRouteName()) !!}
-                @endif--}}
+                @endif
 
-            </h6>
+            </h6> --}}
         </section>
 
         <!-- Main content -->

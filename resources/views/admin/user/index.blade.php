@@ -24,30 +24,28 @@
         </div>
     </div>
 
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="box">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
 
-                    @include('admin.partials.errors')
-                    @include('admin.partials.success')
-                    <div class="box-body">
-                    <table id="tags-table" class="table table-bordered table-hover">
-                        <thead>
-                        <tr>
-                            <th data-sortable="false" class="hidden-sm"></th>
-                            <th class="hidden-sm">用户名</th>
-                            <th class="hidden-sm">邮箱</th>
-                            <th class="hidden-md">角色创建日期</th>
-                            <th class="hidden-md">角色修改日期</th>
-                            <th data-sortable="false">操作</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                    </div>
-                    </div>
-                </div>
+            @include('admin.partials.errors')
+            @include('admin.partials.success')
+            <div class="box-body">
+            <table id="tags-table" class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th data-sortable="false" class="hidden-sm"></th>
+                    <th class="hidden-sm">用户名</th>
+                    <th class="hidden-sm">邮箱</th>
+                    <th class="hidden-md">角色创建日期</th>
+                    <th class="hidden-md">角色修改日期</th>
+                    <th data-sortable="false">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            </div>
             </div>
         </div>
     </div>
@@ -77,6 +75,8 @@
                     </form>
                 </div>
 
+        </div>
+        </div>
     </div>
 @stop
 

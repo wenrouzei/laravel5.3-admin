@@ -9,6 +9,11 @@
 @section('content')
     <div class="main animsition">
         <div class="container-fluid">
+            <div class="row page-title-row" style="margin:5px;">
+                <div class="btn-group pull-right" style="margin-right: 10px">
+                    <a href="{{ Url('/admin/user') }}" class="btn btn-sm btn-default"><i class="fa fa-list"></i>&nbsp;用户列表</a>
+                </div>
+            </div>
 
             <div class="row">
                 <div class="">
