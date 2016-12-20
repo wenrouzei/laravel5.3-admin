@@ -117,17 +117,17 @@
             <!-- Menu Toggle Button -->
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <!-- The user image in the navbar-->
-              {{--<img src="/imgs/avatar/u1.jpg" class="user-image" alt="User Image">--}}
+              <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image">
              <!-- hidden-xs hides the username on small devices so only the image appears. -->
               <span class="hidden-xs">{{Auth::guard('admin')->user()->name}}</span>
             </a>
             <ul class="dropdown-menu">
               <!-- The user image in the menu -->
               <li class="user-header">
-                <img src="{{ asset('/123.png') }}" class="img-circle" alt="User Image">
+                <img src="{{ asset('/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
                 <p>
                   {{Auth::guard('admin')->user()->name}} - 系统管理员
-                  <small>最后登录:{{date('Y-m-d H:i',strtotime(Auth::guard('admin')->user()->updated_at))}}</small>
+                  <small>最后登录时间：{{Auth::guard('admin')->user()->updated_at}}</small>
                 </p>
               </li>
               <!-- Menu Body -->
@@ -147,9 +147,9 @@
               </li>
               <!-- Menu Footer-->
               <li class="user-footer">
-                {{--<div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">编辑详情</a>
-                </div>--}}
+                <div class="pull-left">
+                  <a href="{{ url('/admin/user/'.Auth::guard('admin')->user()->id.'/edit') }}" class="btn btn-default btn-flat">编辑详情</a>
+                </div>
                 <div class="pull-right">
                   <a href="{{ url('/admin/logout') }}" class="btn btn-default btn-flat" onclick="event.preventDefault();document.getElementById('logout-form').submit();">登出</a>
                   <form id="logout-form" action="{{ url('/admin/logout') }}" method="POST" style="display: none;">
