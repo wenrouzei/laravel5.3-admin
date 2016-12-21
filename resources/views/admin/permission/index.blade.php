@@ -146,9 +146,9 @@
                     {
                         'targets': -1, "render": function (data, type, row) {
                         if (cid == 0) {
-                            return '<a style="margin:3px;"  href="{{ url("/admin/permission") }}/' + row['id'] + '" class="X-Small btn-xs text-success "><i class="fa fa-adn"></i>下级菜单</a><a style="margin:3px;" href="{{ url('/admin/permission') }}/' + row['id'] + '/edit" class="X-Small btn-xs text-success "><i class="fa fa-edit"></i> 编辑</a><a style="margin:3px;" href="#" attr="' + row['id'] + '" class="delBtn X-Small btn-xs text-danger"><i class="fa fa-times-circle"></i> 删除</a>';
+                            return '<a style="margin:3px;"  href="{{ url("/admin/permission") }}/' + row['id'] + '" class="X-Small btn-xs text-success "><i class="fa fa-adn"></i>下级菜单</a><a style="margin:3px;" href="{{ url('/admin/permission') }}/' + row['id'] + '/edit" class="X-Small btn-xs text-success "><i class="fa fa-edit"></i> 编辑</a><a style="margin:3px;" href="#" attr="' + row['id'] + '" class="delBtn X-Small btn-xs text-danger"><i class="fa fa-trash"></i> 删除</a>';
                         } else {
-                            return '<a style="margin:3px;" href="{{ url("/admin/permission") }}/' + row['id'] + '/edit" class="X-Small btn-xs text-success "><i class="fa fa-edit"></i> 编辑</a><a style="margin:3px;" href="#" attr="' + row['id'] + '" class="delBtn X-Small btn-xs text-danger"><i class="fa fa-times-circle"></i> 删除</a>';
+                            return '<a style="margin:3px;" href="{{ url("/admin/permission") }}/' + row['id'] + '/edit" class="X-Small btn-xs text-success "><i class="fa fa-edit"></i> 编辑</a><a style="margin:3px;" href="#" attr="' + row['id'] + '" class="delBtn X-Small btn-xs text-danger"><i class="fa fa-trash"></i> 删除</a>';
                         }
 
                     }

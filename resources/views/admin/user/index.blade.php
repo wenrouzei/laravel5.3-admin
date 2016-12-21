@@ -9,10 +9,11 @@
 @section('content')
 
     <div class="row page-title-row" style="margin:5px;">
-        <div class="col-md-6">
+        <div class="btn-group pull-right" style="margin-right: 10px">
+            <a href="/admin/auth/users" class="btn btn-sm btn-default"><i class="fa fa-list"></i>&nbsp;List</a>
         </div>
-        <div class="col-md-6 text-right">
-            <a href="{{ url('/admin/user/create') }}" class="btn btn-success btn-md">
+        <div class="btn-group pull-right">
+            <a href="{{ url('/admin/user/create') }}" class="btn btn-sm btn-success">
                 <i class="fa fa-plus-circle"></i> 添加用户
             </a>
         </div>
@@ -20,7 +21,7 @@
     <div class="row page-title-row" style="margin:5px;">
         <div class="col-md-6">
         </div>
-        <div class="col-md-6 text-right">
+        <div class="btn-group pull-right">
         </div>
     </div>
 
@@ -75,7 +76,7 @@
                     </form>
                 </div>
 
-        </div>
+            </div>
         </div>
     </div>
 @stop
@@ -130,7 +131,7 @@
                         'targets': -1, "render": function (data, type, row) {
                         var caozuo = '<a style="margin:3px;" href="{{ url("/admin/user") }}/' + row['id'] + '/edit" class="X-Small btn-xs text-success "><i class="fa fa-edit"></i> 编辑</a>';
                         if (row['id'] != 1) {
-                            caozuo += '<a style="margin:3px;" href="#" attr="' + row['id'] + '" class="delBtn X-Small btn-xs text-danger "><i class="fa fa-times-circle-o"></i> 删除</a>';
+                            caozuo += '<a style="margin:3px;" href="#" attr="' + row['id'] + '" class="delBtn X-Small btn-xs text-danger "><i class="fa fa-trash"></i> 删除</a>';
                         }
                         return caozuo;
                         }

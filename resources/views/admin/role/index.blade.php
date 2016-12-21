@@ -125,7 +125,7 @@
                 columnDefs: [
                     {
                         'targets': -1, "render": function (data, type, row) {
-                        return '<a style="margin:3px;" href="{{ url("/admin/role") }}/' + row['id'] + '" class="X-Small btn-xs text-success"><i class="fa fa-edit"></i> 详情</a><a style="margin:3px;" href="{{ url("/admin/role") }}/' + row['id'] + '/edit" class="X-Small btn-xs text-success"><i class="fa fa-edit"></i> 编辑</a><a style="margin:3px;" href="#" attr="' + row['id'] + '" class="delBtn X-Small btn-xs text-danger"><i class="fa fa-times-circle"></i> 删除</a>';
+                        return '<a style="margin:3px;" href="{{ url("/admin/role") }}/' + row['id'] + '" class="X-Small btn-xs text-success"><i class="fa fa-eye"></i> 详情</a><a style="margin:3px;" href="{{ url("/admin/role") }}/' + row['id'] + '/edit" class="X-Small btn-xs text-success"><i class="fa fa-edit"></i> 编辑</a><a style="margin:3px;" href="#" attr="' + row['id'] + '" class="delBtn X-Small btn-xs text-danger"><i class="fa fa-trash"></i> 删除</a>';
                     }
                     }
                 ]
