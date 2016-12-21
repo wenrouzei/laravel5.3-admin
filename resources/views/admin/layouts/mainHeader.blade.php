@@ -148,10 +148,10 @@
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  <a href="{{ url('/admin/user/'.Auth::guard('admin')->user()->id.'/edit') }}" class="btn btn-default btn-flat">编辑详情</a>
+                  <a href="{{ url('/admin/user/'.Auth::guard('admin')->user()->id.'/edit') }}" class="btn btn-default btn-flat"><i class="fa fa-user"></i> 编辑详情</a>
                 </div>
                 <div class="pull-right">
-                  <a href="{{ url('/admin/logout') }}" class="btn btn-default btn-flat" onclick="event.preventDefault();document.getElementById('logout-form').submit();">登出</a>
+                  <a href="{{ url('/admin/logout') }}" class="btn btn-default btn-flat" onclick="event.preventDefault();document.getElementById('logout-form').submit();"><i class="fa fa-power-off"></i> 登出</a>
                   <form id="logout-form" action="{{ url('/admin/logout') }}" method="POST" style="display: none;">
                       {{ csrf_field() }}
                   </form>
