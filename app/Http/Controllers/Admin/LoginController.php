@@ -30,7 +30,7 @@ class LoginController extends Controller
 
     /**
      * Get the login username to be used by the controller.
-     * 重写username()方法 可修改返回值对应字段值登录，需在登录页面对应传字段参数名
+     * 覆盖trait AuthenticatesUsers的username()方法 可修改返回值对应字段值登录，需在登录页面对应传字段参数名
      * @return string
      */
     // public function username()
