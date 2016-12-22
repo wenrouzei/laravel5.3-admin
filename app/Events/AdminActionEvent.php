@@ -20,7 +20,7 @@ class AdminActionEvent
      * @content 日志内容
      * @return void
      */
-    public function __construct(string $content)
+    public function __construct($content='')
     {
         $this->uid = auth('admin')->user()->id;
         $this->adminName = auth('admin')->user()->name;

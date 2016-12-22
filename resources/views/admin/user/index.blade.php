@@ -9,8 +9,7 @@
 @section('content')
 
     <div class="row page-title-row" style="margin:5px;">
-        <div class="btn-group pull-right" style="margin-right: 10px">
-            <a href="/admin/auth/users" class="btn btn-sm btn-default"><i class="fa fa-list"></i>&nbsp;List</a>
+        <div class="col-md-6">
         </div>
         <div class="btn-group pull-right">
             <a href="{{ url('/admin/user/create') }}" class="btn btn-sm btn-success">
