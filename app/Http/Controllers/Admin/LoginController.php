@@ -28,7 +28,15 @@ class LoginController extends Controller
      */
     protected $redirectTo = '/admin';
 
-    protected $username;
+    /**
+     * Get the login username to be used by the controller.
+     * 重写username()方法 可修改返回值对应字段值登录，需在登录页面对应传字段参数名
+     * @return string
+     */
+    // public function username()
+    // {
+    //     return 'name';//使用name字段登录 需在登录页面email输入框改成name
+    // }
 
 
     /**
