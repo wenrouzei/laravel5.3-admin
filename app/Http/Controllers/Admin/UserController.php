@@ -124,7 +124,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
-        if(!Auth::guard('admin')->user()->isSuperAdmin && $user->isSuperAdmin){//超级管理员只能自己修改
+        if(!Auth::guard('admin')->user()->is_super_admin && $user->is_super_admin){//超级管理员只能自己修改
             return response()->view('admin.errors.403', ['previousUrl'=>\URL::previous()]);
         }
 
@@ -140,7 +140,7 @@ class UserController extends Controller
         }
         $data['rolesAll'] = Role::all()->toArray();
         $data['id'] = (int)$id;
-        $data['isSuperAdmin'] = $user->isSuperAdmin;
+        $data['is_super_admin'] = $user->is_super_admin;
         return view('admin.user.edit', $data);
     }
 
@@ -155,7 +155,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
-        if(!Auth::guard('admin')->user()->isSuperAdmin && $user->isSuperAdmin){//超级管理员只能自己修改
+        if(!Auth::guard('admin')->user()->is_super_admin && $user->is_super_admin){//超级管理员只能自己修改
             return response()->view('admin.errors.403', ['previousUrl'=>\URL::previous()]);
         }
 
@@ -186,7 +186,7 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
-        if($user->isSuperAdmin){//超级管理员不能删除
+        if($user->is_super_admin){//超级管理员不能删除
             return redirect()->back()->withErrors("操作失败，不能删除超级管理员！");
         }
 

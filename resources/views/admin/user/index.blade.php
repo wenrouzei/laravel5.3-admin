@@ -129,7 +129,7 @@
                     {
                         'targets': -1, "render": function (data, type, row) {
                         var caozuo = '<a style="margin:3px;" href="{{ url("/admin/user") }}/' + row['id'] + '/edit" class="X-Small btn-xs text-success "><i class="fa fa-edit"></i> 编辑</a>';
-                        if (row['isSuperAdmin'] == false) {
+                        if (row['is_super_admin'] == false) {
                             caozuo += '<a style="margin:3px;" href="#" attr="' + row['id'] + '" class="delBtn X-Small btn-xs text-danger "><i class="fa fa-trash"></i> 删除</a>';
                         }
                         return caozuo;

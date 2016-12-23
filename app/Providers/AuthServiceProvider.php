@@ -34,9 +34,9 @@ class AuthServiceProvider extends ServiceProvider
         
         Gate::before(function ($user, $ability) {
 
-            if($user->isAdmin){//后台登录用户才进行gate权限授权 区分前台登录用户 用户模型getIsAdminAttribute添加方法返回值识别
-                
-                if ($user->isSuperAdmin) {//超级管理员绕过gate验证
+            if($user->is_admin){//后台登录用户才进行gate权限授权 区分前台登录用户 用户模型getIsAdminAttribute添加方法返回值识别
+
+                if ($user->is_super_admin) {//超级管理员绕过gate验证
                     return true;
                 }
 

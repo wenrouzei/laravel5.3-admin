@@ -24,7 +24,7 @@ class AdminUser extends Authenticatable
     protected $hidden = ['password', 'remember_token'];
 
     //获取模型的json或数组返回值中添加数据库字段中不存在的属性
-    protected $appends = ['isSuperAdmin'];
+    protected $appends = ['is_super_admin'];
 
     //用户角色
     public function roles()
