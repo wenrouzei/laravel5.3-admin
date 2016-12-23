@@ -29,7 +29,7 @@ class User extends Authenticatable
 
 
     /**
-     * 访问不存在属性时，通过该方法添加额外属性识别前端登录用户，区分后台登录用户
+     * 访问不存在属性时，通过该方法添加额外属性识别前端登录用户，区分后台登录用户 类似getAttribute都统一使用驼峰法。然后取值的时候就统一使用下划线的方法
      * @return boolean [description]
      */
     public function getIsAdminAttribute()

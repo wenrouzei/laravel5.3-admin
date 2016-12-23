@@ -72,7 +72,7 @@ class AdminUser extends Authenticatable
     // 
     
     /**
-     * 访问不存在属性时，通过该方法添加额外属性识别后台登录用户，区分前端登录用户
+     * 访问不存在属性时，通过该方法添加额外属性识别后台登录用户，区分前端登录用户 类似getAttribute都统一使用驼峰法。然后取值的时候就统一使用下划线的方法
      * @return boolean [description]
      */
     public function getIsAdminAttribute()
@@ -81,7 +81,7 @@ class AdminUser extends Authenticatable
     }
 
     /**
-     * 访问不存在属性时，通过该方法添加额外属性识别是否是超级管理员，id==1为超级管理员账号？
+     * 访问不存在属性时，通过该方法添加额外属性识别是否是超级管理员，id==1为超级管理员账号？类似getAttribute都统一使用驼峰法。然后取值的时候就统一使用下划线的方法
      * @return [type] [description]
      */
     public function getIsSuperAdminAttribute(){
