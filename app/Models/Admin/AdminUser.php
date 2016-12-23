@@ -23,6 +23,9 @@ class AdminUser extends Authenticatable
      */
     protected $hidden = ['password', 'remember_token'];
 
+    //获取模型的json或数组返回值中添加数据库字段中不存在的属性
+    protected $appends = ['isSuperAdmin'];
+
     //用户角色
     public function roles()
     {
@@ -66,4 +69,22 @@ class AdminUser extends Authenticatable
     //     }
     //     return true;
     // }
+    // 
+    
+    /**
+     * 访问不存在属性时，通过该方法添加额外属性识别后台登录用户，区分前端登录用户
+     * @return boolean [description]
+     */
+    public function getIsAdminAttribute()
+    {
+        return true;
+    }
+
+    /**
+     * 访问不存在属性时，通过该方法添加额外属性识别是否是超级管理员，id==1为超级管理员账号？
+     * @return [type] [description]
+     */
+    public function getIsSuperAdminAttribute(){
+        return $this->id == 1;
+    }
 }

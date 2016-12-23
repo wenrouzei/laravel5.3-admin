@@ -28,7 +28,7 @@
 
 <div class="form-group">
     <label for="tag" class="col-md-3 control-label">角色列表</label>
-    @if(isset($id)&&$id==1)
+    @if($isSuperAdmin)
         <div class="col-md-4" style="float:left;padding-left:20px;margin-top:8px;"><h2>超级管理员</h2></div>
     @else
         <div class="col-md-6">

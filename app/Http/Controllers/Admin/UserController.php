@@ -122,11 +122,11 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        if($id == 1 && Auth::guard('admin')->user()->id !=1){//id=1的超级管理员只能自己修改
+        $user = User::findOrFail($id);
+
+        if(!Auth::guard('admin')->user()->isSuperAdmin && $user->isSuperAdmin){//超级管理员只能自己修改
             return response()->view('admin.errors.403', ['previousUrl'=>\URL::previous()]);
         }
-
-        $user = User::findOrFail($id);
 
         $roles = [];
         if ($user->roles) {
@@ -140,6 +140,7 @@ class UserController extends Controller
         }
         $data['rolesAll'] = Role::all()->toArray();
         $data['id'] = (int)$id;
+        $data['isSuperAdmin'] = $user->isSuperAdmin;
         return view('admin.user.edit', $data);
     }
 
@@ -152,11 +153,12 @@ class UserController extends Controller
      */
     public function update(Requests\AdminUserUpdateRequest $request, $id)
     {
-        if($id == 1 && Auth::guard('admin')->user()->id !=1){//id=1的超级管理员只能自己修改
+        $user = User::findOrFail($id);
+
+        if(!Auth::guard('admin')->user()->isSuperAdmin && $user->isSuperAdmin){//超级管理员只能自己修改
             return response()->view('admin.errors.403', ['previousUrl'=>\URL::previous()]);
         }
 
-        $user = User::findOrFail($id);
         foreach ($this->fields as $field => $default) {
             $user->$field = $request->input($field);
         }
@@ -184,6 +186,10 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
+        if($user->isSuperAdmin){//超级管理员不能删除
+            return redirect()->back()->withErrors("操作失败，不能删除超级管理员！");
+        }
+
         // foreach ($user->roles as $v) {
         //     $user->roles()->detach($v);
         // }
@@ -191,7 +197,7 @@ class UserController extends Controller
         // 移除用户身上所有身份...
         $user->roles()->detach();
 
-        if ($user && $user->id != 1 && $user->delete()) {//id=1的超级管理员不能删除
+        if ($user && $user->delete()) {//超级管理员不能删除
             return redirect()->back()->withSuccess("删除成功！");
         } else {
             return redirect()->back()->withErrors("删除失败！");

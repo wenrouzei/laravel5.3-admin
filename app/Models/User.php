@@ -26,4 +26,14 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+
+    /**
+     * 访问不存在属性时，通过该方法添加额外属性识别前端登录用户，区分后台登录用户
+     * @return boolean [description]
+     */
+    public function getIsAdminAttribute()
+    {
+        return false;
+    }
 }

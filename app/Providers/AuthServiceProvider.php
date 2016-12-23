@@ -2,10 +2,8 @@
 
 namespace App\Providers;
 
-use App\Http\Requests\Request;
-use Illuminate\Contracts\Auth\Access\Gate as GateContract;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use League\Flysystem\Exception;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -26,7 +24,7 @@ class AuthServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot(GateContract $gate)
+    public function boot()
     {
         // if(!empty($_SERVER['SCRIPT_NAME']) && strtolower($_SERVER['SCRIPT_NAME']) ==='artisan' ){
         //     return false;
@@ -34,20 +32,27 @@ class AuthServiceProvider extends ServiceProvider
         
         $this->registerPolicies();
         
-        $gate->before(function ($user, $ability) {
-            if ($user->id === 1) {//超级管理员绕过gate验证
-                return true;
+        Gate::before(function ($user, $ability) {
+
+            if($user->isAdmin){//后台登录用户才进行gate权限授权 区分前台登录用户 用户模型getIsAdminAttribute添加方法返回值识别
+                
+                if ($user->isSuperAdmin) {//超级管理员绕过gate验证
+                    return true;
+                }
+
+                $permissions = \App\Models\Admin\Permission::with('roles')->get();
+
+                foreach ($permissions as $permission) {
+                    Gate::define($permission->name, function ($user) use ($permission) {
+                        return $user->hasPermission($permission);
+                    });
+                }
+
             }
+
         });
 
 
-        $permissions = \App\Models\Admin\Permission::with('roles')->get();
-
-        foreach ($permissions as $permission) {
-            $gate->define($permission->name, function ($user) use ($permission) {
-                return $user->hasPermission($permission);
-            });
-        }
     }
 
 
