@@ -1,6 +1,6 @@
 @extends('admin.layouts.base')
 
-@section('title','控制面板')
+@section('title','添加角色')
 
 @section('pageHeader','控制面板')
 
@@ -28,17 +28,7 @@
 
                             <form class="form-horizontal" role="form" method="POST" action="{{ url('/admin/role') }}">
                                 {{ csrf_field() }}
-                                <input type="hidden" name="cove_image"/>
-                                @include('admin.role._form')
-                                <div class="form-group">
-                                    <div class="col-md-7 col-md-offset-3">
-                                        <button type="submit" class="btn btn-primary btn-md">
-                                            <i class="fa fa-plus-circle"></i>
-                                            添加
-                                        </button>
-                                    </div>
-                                </div>
-
+                                @include('admin.role._form', ['formSubmitButtonText'=>'添加'])
                             </form>
 
                         </div>
