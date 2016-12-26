@@ -43,7 +43,7 @@ class AdminUser extends Authenticatable
     }
 
     // 判断用户是否具有某权限
-    public function hasPermission($permission)
+/*    public function hasPermission($permission)
     {
         if (is_string($permission)) {
             $permission = Permission::where('name',$permission)->first();
@@ -51,7 +51,7 @@ class AdminUser extends Authenticatable
         }
 
         return $this->hasRole($permission->roles);
-    }
+    }*/
 
     // // 给用户分配角色
     // public function assignRole($role)
@@ -69,8 +69,8 @@ class AdminUser extends Authenticatable
     //     }
     //     return true;
     // }
-    // 
-    
+    //
+
     /**
      * 访问不存在属性时，通过该方法添加额外属性识别后台登录用户，区分前端登录用户 类似getAttribute都统一使用驼峰法。然后取值的时候就统一使用下划线的方法
      * @return boolean [description]

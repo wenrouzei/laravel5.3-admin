@@ -29,9 +29,9 @@ class AuthServiceProvider extends ServiceProvider
         // if(!empty($_SERVER['SCRIPT_NAME']) && strtolower($_SERVER['SCRIPT_NAME']) ==='artisan' ){
         //     return false;
         // }
-        
+
         $this->registerPolicies();
-        
+
         Gate::before(function ($user, $ability) {
 
             if($user->is_admin){//后台登录用户才进行gate权限授权 区分前台登录用户 用户模型getIsAdminAttribute添加方法返回值识别
@@ -44,7 +44,8 @@ class AuthServiceProvider extends ServiceProvider
 
                 foreach ($permissions as $permission) {
                     Gate::define($permission->name, function ($user) use ($permission) {
-                        return $user->hasPermission($permission);
+                        return $user->hasRole($permission->roles);
+                        //return $user->hasPermission($permission);
                     });
                 }
 
