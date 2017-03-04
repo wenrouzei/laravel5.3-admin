@@ -12,5 +12,11 @@
 @stop
 
 @section('js')
+    <script src="{{ asset('plugins') }}/chartjs/Chart.min.js"></script>
+    <script>
+        Chart.defaults.global.responsive      = true;
+        Chart.defaults.global.scaleFontFamily = "'Source Sans Pro'";
+        Chart.defaults.global.animationEasing = "easeOutQuart";
+    </script>
     @yield('scripts')
 @stop
