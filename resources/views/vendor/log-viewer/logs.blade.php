@@ -47,7 +47,7 @@
                             <a href="{{ route('log-viewer::logs.download', [$date]) }}" class="btn btn-xs btn-success">
                                 <i class="fa fa-download"></i>
                             </a>
-                            <a class="delete-log-modal btn btn-xs btn-danger" data-log-date="{{ $date }}">
+                            <a href="#delete-log-modal" class="btn btn-xs btn-danger" data-log-date="{{ $date }}">
                                 <i class="fa fa-trash-o"></i>
                             </a>
                         </td>
@@ -65,7 +65,9 @@
     </div>
 
     {!! $rows->render() !!}
+@endsection
 
+@section('modals')
     {{-- DELETE MODAL --}}
     <div id="delete-log-modal" class="modal fade">
         <div class="modal-dialog">
@@ -91,7 +93,7 @@
             </form>
         </div>
     </div>
-@stop
+@endsection
 
 @section('scripts')
     <script>
@@ -100,7 +102,7 @@
                 deleteLogForm  = $('form#delete-log-form'),
                 submitBtn      = deleteLogForm.find('button[type=submit]');
 
-            $(".delete-log-modal").click(function(event) {
+            $("a[href=#delete-log-modal]").on('click', function(event) {
                 event.preventDefault();
                 var date = $(this).data('log-date');
                 deleteLogForm.find('input[name=date]').val(date);
@@ -111,7 +113,7 @@
                 deleteLogModal.modal('show');
             });
 
-            deleteLogForm.submit(function(event) {
+            deleteLogForm.on('submit', function(event) {
                 event.preventDefault();
                 submitBtn.button('loading');
 
@@ -141,10 +143,10 @@
                 return false;
             });
 
-            deleteLogModal.on('hidden.bs.modal', function(event) {
+            deleteLogModal.on('hidden.bs.modal', function() {
                 deleteLogForm.find('input[name=date]').val('');
                 deleteLogModal.find('.modal-body p').html('');
             });
         });
     </script>
-@stop
+@endsection

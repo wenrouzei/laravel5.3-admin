@@ -4,36 +4,36 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "e84f971e82baf1e2d690e90e404ee206",
-    "content-hash": "9277657a5ba223a0b96b563a7f80eb7e",
+    "hash": "51a538832a5dbe833bdef50eeed67f98",
+    "content-hash": "af9446a2e9ca3f5acd1539ebb5fe2721",
     "packages": [
         {
             "name": "arcanedev/log-viewer",
-            "version": "4.1.0",
+            "version": "4.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ARCANEDEV/LogViewer.git",
-                "reference": "d72efb0ff2dec5d7b3b04542b69bc5bb1defccd7"
+                "reference": "7cad75841bd9304bccd90cd670dca0fc23c56a28"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://packagist.phpcomposer.com/files/ARCANEDEV/LogViewer/d72efb0ff2dec5d7b3b04542b69bc5bb1defccd7.zip",
-                "reference": "d72efb0ff2dec5d7b3b04542b69bc5bb1defccd7",
+                "url": "https://packagist.phpcomposer.com/files/ARCANEDEV/LogViewer/7cad75841bd9304bccd90cd670dca0fc23c56a28.zip",
+                "reference": "7cad75841bd9304bccd90cd670dca0fc23c56a28",
                 "shasum": ""
             },
             "require": {
-                "arcanedev/support": "~3.0",
+                "arcanedev/support": "~3.20",
                 "php": ">=5.6",
                 "psr/log": "~1.0"
             },
             "require-dev": {
-                "phpunit/phpcov": "~2.0|~3.0",
-                "phpunit/phpunit": "~4.0|~5.0"
+                "phpunit/phpcov": "~3.0",
+                "phpunit/phpunit": "~5.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.0.x-dev"
+                    "dev-master": "4.3.x-dev"
                 }
             },
             "autoload": {
@@ -68,7 +68,7 @@
                 "log-viewer",
                 "logviewer"
             ],
-            "time": "2016-11-08 10:46:48"
+            "time": "2017-01-31 12:03:39"
         },
         {
             "name": "arcanedev/support",
