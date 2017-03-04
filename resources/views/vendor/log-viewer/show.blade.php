@@ -1,7 +1,6 @@
 @extends('log-viewer::_template.master')
 
-@section('content')
-    @include('log-viewer::_template.navigation')
+@section('content-log-viewer')
     <h1 class="page-header">Log [{{ $log->date }}]</h1>
 
     <div class="row">
