@@ -39,22 +39,22 @@
         margin-top: 0;
     }
 
-    footer.main-footer {
-        position: absolute;
-        padding: 10px 0;
-        bottom: 0;
-        width: 100%;
-        background-color: #e8eaf6;
-        font-weight: 600;
-    }
+    /*footer.main-footer {*/
+        /*position: absolute;*/
+        /*padding: 10px 0;*/
+        /*bottom: 0;*/
+        /*width: 100%;*/
+        /*background-color: #e8eaf6;*/
+        /*font-weight: 600;*/
+    /*}*/
 
-    footer.main-footer p {
-        margin: 0;
-    }
+    /*footer.main-footer p {*/
+        /*margin: 0;*/
+    /*}*/
 
-    footer.main-footer i.fa.fa-heart {
-        color: #C62828;
-    }
+    /*footer.main-footer i.fa.fa-heart {*/
+        /*color: #C62828;*/
+    /*}*/
 
     .pagination {
         margin: 0;
