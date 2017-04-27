@@ -33,25 +33,23 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         Gate::before(function ($user, $ability) {
-
-            if($user->is_admin){//后台登录用户才进行gate权限授权 区分前台登录用户 用户模型getIsAdminAttribute添加方法返回值识别
-
-                if ($user->is_super_admin) {//超级管理员绕过gate验证
-                    return true;
-                }
-
-                $permissions = \App\Models\Admin\Permission::with('roles')->get();
-
-                foreach ($permissions as $permission) {
-                    Gate::define($permission->name, function ($user) use ($permission) {
-                        return $user->hasRole($permission->roles);
-                        //return $user->hasPermission($permission);
-                    });
-                }
-
+            if ($user->is_admin && $user->is_super_admin) {//超级管理员绕过gate验证
+                return true;
             }
-
         });
+
+        $permissions = \App\Models\Admin\Permission::with('roles')->get();
+
+        foreach ($permissions as $permission) {
+            Gate::define($permission->name, function ($user) use ($permission) {
+                if($user->is_admin) {//后台登录用户才进行gate权限授权 区分前台登录用户 用户模型getIsAdminAttribute添加方法返回值识别
+                    return $user->hasRole($permission->roles);
+                    //return $user->hasPermission($permission);
+                }else{
+                    return false;
+                }
+            });
+        }
 
 
     }
