@@ -26,7 +26,8 @@ class PermChangeListener
      */
     public function handle(PermChangeEvent $event)
     {
-        Cache::store('file')->forget('menus');//清理菜单缓存
+//        Cache::store('file')->forget('menus');//清理菜单缓存
+        Cache::forget('menus');//清理菜单缓存
     }
 
 }

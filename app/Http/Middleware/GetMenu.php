@@ -4,8 +4,11 @@
  */
 namespace App\Http\Middleware;
 
+use App\Events\AdminActionEvent;
+use App\Models\Admin\Permission;
 use Closure;
 use Cache, Request, Gate;
+use Illuminate\Support\Facades\URL;
 
 class GetMenu
 {
@@ -41,8 +44,9 @@ class GetMenu
         }
         
         //查找出所有的地址 name包含index为菜单 cid==0为一级菜单
-        $table = Cache::store('file')->rememberForever('menus', function () {
-            return \App\Models\Admin\Permission::where('name', 'LIKE', '%.index')
+//        $table = Cache::store('file')->rememberForever('menus', function () {
+        $table = Cache::rememberForever('menus', function () {
+            return Permission::where('name', 'LIKE', '%.index')
                 ->orWhere('cid', '==', 0)
                 ->get();
         });
@@ -53,7 +57,16 @@ class GetMenu
                     $openArr[] = $v->id;//获取正在操作的二级菜单
                     $openArr[] = $v->cid;//获取正在操作的一级菜单
                 }
-                $data[$v->cid][] = $v->toarray();
+                if($v->cid != 0){
+                    try {
+                        $url = URL::route($v->name);
+                        $data[$v->cid][] = array_merge($v->toarray(),['url'=>$url]);
+                    }catch (\InvalidArgumentException $e){
+                        event(new AdminActionEvent('权限菜单不存在：权限规则(' . $v->name.') 权限名称('.$v->label.') 系统id('.$v->id.')', 'warning'));
+                    }
+                }else{
+                    $data[$v->cid][] = $v->toarray();
+                }
             }
         }
 
